@@ -1,3 +1,5 @@
+from fuzzification import Fuzzifier
+
 class ProvideResult(object):
     def __new__(cls):
         if not hasattr(cls, 'instance'):

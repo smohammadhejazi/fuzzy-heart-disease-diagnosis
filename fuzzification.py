@@ -111,7 +111,7 @@ class HeartDiseaseFuzzifier():
         cholesterol.add_fuzzy_set("low", [Point(100, 1), Point(151, 1), Point(199, 0), Point(400, 0)])
         cholesterol.add_fuzzy_set("medium", [Point(100, 0), Point(188, 0), Point(215, 1), Point(250, 0), Point(400, 0)])
         cholesterol.add_fuzzy_set("high", [Point(100, 0), Point(217, 0), Point(263, 1), Point(307, 0), Point(400, 0)])
-        cholesterol.add_fuzzy_set("ver_high", [Point(100, 0), Point(281, 0), Point(347, 1), Point(400, 1)])
+        cholesterol.add_fuzzy_set("very_high", [Point(100, 0), Point(281, 0), Point(347, 1), Point(400, 1)])
 
         maximum_heart_rate = Fuzzifier("maximum_heart_rate")
         maximum_heart_rate.add_fuzzy_set("low", [Point(0, 1), Point(100, 1), Point(191, 0), Point(500, 0)])
@@ -136,7 +136,7 @@ class HeartDiseaseFuzzifier():
         self.fuzzifiers["blood_pressure"] = blood_pressure
         self.fuzzifiers["blood_sugar"] = blood_sugar
         self.fuzzifiers["cholesterol"] = cholesterol
-        self.fuzzifiers["heart_rate"] = heart_rate
+        self.fuzzifiers["maximum_heart_rate"] = maximum_heart_rate
         self.fuzzifiers["ecg"] = ecg
         self.fuzzifiers["old_peak"] = old_peak
 

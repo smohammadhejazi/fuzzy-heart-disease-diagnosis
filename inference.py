@@ -56,7 +56,7 @@ class Inference:
         self.initialize_rules()
 
     def initialize_rules(self):
-        with open("./rules.fcl") as rules:
+        with open("C:/Users/Mohammad/Desktop/CI/Project/2/fuzzy-heart-disease-diagnosis/rules.fcl") as rules:
             for line in rules:
                 if line.strip(";\n") != "":
                     if_then_string = line.strip(";\n").split(":")[1]

@@ -69,6 +69,23 @@ class HeartDiseaseFuzzifier():
         self.fuzzifiers = {}
         self.initialize()
 
+    def fuzzify_all(self, input_dict):
+        fuzzy_values = {}
+        # get fuzzy version of all values
+        for param, value in input_dict.items():
+            fuzzy_values[param] = self.fuzzifiers[param].fuzzify(float(value))
+
+        blood_sugar = {"true": 0, "false": 0}
+        if fuzzy_values.pop("blood_sugar")["very_high"] > 120:
+            blood_sugar["true"] = 1
+            blood_sugar["false"] = 0
+        else:
+            blood_sugar["true"] = 0
+            blood_sugar["false"] = 1
+        fuzzy_values["blood_sugar"] = blood_sugar
+
+        return fuzzy_values
+
     def initialize(self):
         # Crisp inputs
         chest_pain = Fuzzifier("chest_pain")
@@ -79,7 +96,7 @@ class HeartDiseaseFuzzifier():
 
         sex = Fuzzifier("sex")
         sex.add_fuzzy_set("male", [Point(0, 1), Point(0, 1)])
-        sex.add_fuzzy_set("female", [Point(2, 1), Point(1, 1)])
+        sex.add_fuzzy_set("female", [Point(1, 1), Point(1, 1)])
 
         thallium = Fuzzifier("thallium")
         thallium.add_fuzzy_set("normal", [Point(3, 1), Point(3, 1)])
@@ -87,8 +104,8 @@ class HeartDiseaseFuzzifier():
         thallium.add_fuzzy_set("high", [Point(7, 1), Point(7, 1)])
 
         exercise = Fuzzifier("exercise")
-        exercise.add_fuzzy_set("false", [Point(0, 1), Point(0, 1)])
-        exercise.add_fuzzy_set("true", [Point(1, 1), Point(1, 1)])
+        exercise.add_fuzzy_set("false", [Point(1, 1), Point(1, 1)])
+        exercise.add_fuzzy_set("true", [Point(0, 1), Point(0, 1)])
 
         # Continues inputs
 
@@ -102,7 +119,7 @@ class HeartDiseaseFuzzifier():
         blood_pressure.add_fuzzy_set("low", [Point(100, 1), Point(111, 1), Point(134, 0), Point(300, 0)])
         blood_pressure.add_fuzzy_set("medium", [Point(100, 0), Point(127, 0), Point(139, 1), Point(153, 0), Point(300, 0)])
         blood_pressure.add_fuzzy_set("high", [Point(100, 0), Point(142, 0), Point(157, 1), Point(172, 0), Point(300, 0)])
-        blood_pressure.add_fuzzy_set("very_high", [Point(100, 0), Point(154, 0), Point(171, 1), Point(300, 1)])
+        blood_pressure.add_fuzzy_set("very_high", [Point(100, 0), Point(154, 0), Point(171, 1), Point(350, 1)])
 
         blood_sugar = Fuzzifier("blood_sugar")
         blood_sugar.add_fuzzy_set("very_high", [Point(60, 0), Point(105, 0), Point(120, 1), Point(160, 1)])
@@ -111,12 +128,12 @@ class HeartDiseaseFuzzifier():
         cholesterol.add_fuzzy_set("low", [Point(100, 1), Point(151, 1), Point(199, 0), Point(400, 0)])
         cholesterol.add_fuzzy_set("medium", [Point(100, 0), Point(188, 0), Point(215, 1), Point(250, 0), Point(400, 0)])
         cholesterol.add_fuzzy_set("high", [Point(100, 0), Point(217, 0), Point(263, 1), Point(307, 0), Point(400, 0)])
-        cholesterol.add_fuzzy_set("very_high", [Point(100, 0), Point(281, 0), Point(347, 1), Point(400, 1)])
+        cholesterol.add_fuzzy_set("very_high", [Point(100, 0), Point(281, 0), Point(347, 1), Point(600, 1)])
 
         maximum_heart_rate = Fuzzifier("maximum_heart_rate")
         maximum_heart_rate.add_fuzzy_set("low", [Point(0, 1), Point(100, 1), Point(191, 0), Point(500, 0)])
         maximum_heart_rate.add_fuzzy_set("medium", [Point(0, 0), Point(111, 0), Point(152, 1), Point(194, 0), Point(500, 0)])
-        maximum_heart_rate.add_fuzzy_set("high", [Point(0, 0), Point(152, 0), Point(210, 1), Point(500, 1)])
+        maximum_heart_rate.add_fuzzy_set("high", [Point(0, 0), Point(152, 0), Point(210, 1), Point(600, 1)])
 
         ecg = Fuzzifier("ecg")
         ecg.add_fuzzy_set("normal", [Point(-0.5, 1), Point(0, 1), Point(0.4, 0), Point(2.5, 0)])
@@ -126,7 +143,7 @@ class HeartDiseaseFuzzifier():
         old_peak = Fuzzifier("old_peak")
         old_peak.add_fuzzy_set("low", [Point(0, 1), Point(1, 1), Point(2, 0), Point(6, 0)])
         old_peak.add_fuzzy_set("risk", [Point(0, 0), Point(1.5, 0), Point(2.8, 1), Point(4.2, 0), Point(6, 0)])
-        old_peak.add_fuzzy_set("terrible", [Point(0, 0), Point(2.5, 0), Point(4.1, 1), Point(6, 1)])
+        old_peak.add_fuzzy_set("terrible", [Point(0, 0), Point(2.5, 0), Point(4.1, 1), Point(10, 1)])
 
         self.fuzzifiers["chest_pain"] = chest_pain
         self.fuzzifiers["sex"] = sex
